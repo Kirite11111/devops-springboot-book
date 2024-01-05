@@ -28,8 +28,10 @@ public class BookServices {
     }
 
     public Book create(Book book) {
-        Book book1 = bookRepository.save(book);
-        return book1;
+        if (book.getIsBanned()) {
+            throw new BookNotFoundException("Banned book");
+        }
+        return bookRepository.save(book);
     }
 
     public void delete(long id) {

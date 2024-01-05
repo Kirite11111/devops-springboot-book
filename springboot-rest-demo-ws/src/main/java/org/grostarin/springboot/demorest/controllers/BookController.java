@@ -8,6 +8,7 @@ import org.grostarin.springboot.demorest.dto.BookSearch;
 import org.grostarin.springboot.demorest.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,9 +39,13 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Book create(@RequestBody Book book) {
-        return bookServices.create(book);
+    public ResponseEntity<?> create(@RequestBody Book book) {
+        if (book.getIsBanned()) {
+            return new ResponseEntity<>("Cannot create a banned book", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(bookServices.create(book), HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {

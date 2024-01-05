@@ -1,6 +1,8 @@
 package org.grostarin.springboot.demorest.tests;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.grostarin.springboot.demorest.domain.Book;
 import org.grostarin.springboot.demorest.services.BookServices;
@@ -19,4 +21,14 @@ public class BookServiceTests {
         Book toCreate = new Book();
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy( () -> bookService.create(toCreate));
     }
+
+    @Test
+    void whenCreatingBannedBook_thenThrowException() {
+        Book bannedBook = new Book("Banned Title", "Author");
+        bannedBook.setIsBanned(true);
+
+        assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy( () -> bookService.create(bannedBook));
+    }
 }
+
+
