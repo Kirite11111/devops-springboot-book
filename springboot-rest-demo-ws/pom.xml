@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.grostarin.springboot</groupId>
+		<groupId>org.kirite.springboot</groupId>
 		<artifactId>springboot-rest-demo-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
@@ -111,6 +111,18 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 	</dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>16</source>
+                    <target>16</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<packaging>jar</packaging>
+    <packaging>jar</packaging>
 </project>
