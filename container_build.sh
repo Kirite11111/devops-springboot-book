@@ -1,0 +1,1 @@
+docker run -t devops-springboot-book .
