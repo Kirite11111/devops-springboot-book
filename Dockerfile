@@ -1,5 +1,5 @@
 # Utiliser une image de base Java
-FROM openjdk:16-jdk
+FROM openjdk:17-jdk
 
 # Ajouter un point de montage pour volumes externes
 VOLUME /tmp

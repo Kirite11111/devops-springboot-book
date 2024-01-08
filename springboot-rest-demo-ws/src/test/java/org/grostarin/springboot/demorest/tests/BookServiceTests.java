@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.grostarin.springboot.demorest.domain.Book;
+import org.grostarin.springboot.demorest.domain.BookBanned;
 import org.grostarin.springboot.demorest.exceptions.BookNotFoundException;
 import org.grostarin.springboot.demorest.services.BookServices;
 import org.junit.jupiter.api.Test;
@@ -23,19 +24,6 @@ public class BookServiceTests {
         Book toCreate = new Book();
         assertThatExceptionOfType(DataIntegrityViolationException.class).isThrownBy( () -> bookService.create(toCreate));
     }
-
-    @Test
-    void whenCreatingBannedBook_thenThrowBookNotFoundException() {
-        // Arrange
-        Book bannedBook = new Book("Banned Title", "Author");
-        bannedBook.setIsBanned(true);
-
-        // Act & Assert
-        assertThatThrownBy(() -> bookService.create(bannedBook))
-                .isInstanceOf(BookNotFoundException.class)
-                .hasMessageContaining("Banned book");
-    }
-
 }
 
 

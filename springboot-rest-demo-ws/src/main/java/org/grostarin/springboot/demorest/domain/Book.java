@@ -19,8 +19,6 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
-    private boolean isBanned;
-
     public Book() {
         super();
     }
@@ -29,7 +27,6 @@ public class Book {
         super();
         this.title = title;
         this.author = author;
-        this.isBanned = false;
     }
 
     public long getId() {
@@ -54,14 +51,6 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public boolean getIsBanned() {
-        return isBanned;
-    }
-
-    public void setIsBanned(boolean isBanned) {
-        this.isBanned = isBanned;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package org.grostarin.springboot.demorest.controllers;
 
-import org.grostarin.springboot.demorest.exceptions.BookIdMismatchException;
-import org.grostarin.springboot.demorest.exceptions.BookNotFoundException;
+import org.grostarin.springboot.demorest.exceptions.*;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -20,12 +19,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(BookNotFoundException.class)
-    protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
+    protected ResponseEntity<Object> handleNotFoundBookNotFound(Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, "Book not found", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(BookBannedNotFoundException.class)
+    protected ResponseEntity<Object> handleNotFound(Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, "Banned Book not found", new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+    @ExceptionHandler(BannedBookException.class)
+    protected ResponseEntity<Object> handleNotFoundBannedBook(Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, "Book Banned", new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler({
       BookIdMismatchException.class,
+            BookBannedIdMismatchException.class,
       ConstraintViolationException.class,
       DataIntegrityViolationException.class
     })

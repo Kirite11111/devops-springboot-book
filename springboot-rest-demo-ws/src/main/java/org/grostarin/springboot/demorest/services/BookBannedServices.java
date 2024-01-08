@@ -14,7 +14,7 @@ public class BookBannedServices {
 
     @Autowired
     private BookBannedRepository bookbannedRepository;
-    
+
     public Iterable<BookBanned> findAll(BookBannedSearch bookbannedSearchDTO) {
         if(bookbannedSearchDTO!=null && StringUtils.hasText(bookbannedSearchDTO.title())) {
             return bookbannedRepository.findByTitle(bookbannedSearchDTO.title());  
@@ -45,4 +45,6 @@ public class BookBannedServices {
           .orElseThrow(BookBannedNotFoundException::new);
         return bookbannedRepository.save(bookbanned);
     }
+
+
 }

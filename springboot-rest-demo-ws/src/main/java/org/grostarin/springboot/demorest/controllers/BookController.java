@@ -40,9 +40,6 @@ public class BookController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> create(@RequestBody Book book) {
-        if (book.getIsBanned()) {
-            return new ResponseEntity<>("Cannot create a banned book", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(bookServices.create(book), HttpStatus.CREATED);
     }
 
