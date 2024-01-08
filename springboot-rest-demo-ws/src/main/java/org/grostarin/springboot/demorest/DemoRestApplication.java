@@ -60,7 +60,7 @@ public class DemoRestApplication {
      */
     protected static void addDefaultProfile(SpringApplication app) {
         Map<String, Object> defProperties =  new HashMap<>();
-        defProperties.put("spring.config.name", "demo-rest");
+        defProperties.put("spring.application.name", "springboot-rest-demo");
         /*
         * The default profile to use when no other profiles are defined
         * This cannot be set in the `application.yml` file.
