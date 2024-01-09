@@ -1,1 +1,1 @@
-docker run -t devops-springboot-book .
+docker build -t devops-springboot-book .

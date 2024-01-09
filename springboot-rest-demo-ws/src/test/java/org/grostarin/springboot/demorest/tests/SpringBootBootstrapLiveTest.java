@@ -97,7 +97,7 @@ public class SpringBootBootstrapLiveTest {
         final Book book = createRandomBook();
         final String location = createBookAsUri(book);
 
-        book.setId(Long.parseLong(location.split("api/books/")[1]));
+        book.setId(Long.parseLong(location.split("api/book/")[1]));
         book.setAuthor("newAuthor");
         Response response = RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
