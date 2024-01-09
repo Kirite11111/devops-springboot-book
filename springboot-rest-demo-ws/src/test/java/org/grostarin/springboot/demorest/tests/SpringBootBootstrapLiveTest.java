@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 
 import org.grostarin.springboot.demorest.domain.Book;
+import org.grostarin.springboot.demorest.domain.BookBanned;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -24,13 +26,17 @@ public class SpringBootBootstrapLiveTest {
     @LocalServerPort
     private int port;
        
-    private String getApiRoot() {
-        return "http://localhost:"+port+"/api/books";
+    private String getApiBookRoot() {
+        return "http://localhost:"+port+"/api/book";
     }
+    private String getApiBookBannedRoot() {
+        return "http://localhost:"+port+"/api/bookbanned";
+    }
+
 
     @Test
     public void whenGetAllBooks_thenOK() {
-        final Response response = RestAssured.get(getApiRoot());
+        final Response response = RestAssured.get(getApiBookRoot());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
     }
 
@@ -39,7 +45,7 @@ public class SpringBootBootstrapLiveTest {
         final Book book = createRandomBook();
         createBookAsUri(book);
 
-        final Response response = RestAssured.get(getApiRoot() + "?title=" + book.getTitle());
+        final Response response = RestAssured.get(getApiBookRoot() + "?title=" + book.getTitle());
         assertEquals(HttpStatus.OK.value(), response.getStatusCode());
         assertTrue(response.as(List.class)
             .size() > 0);
@@ -58,7 +64,7 @@ public class SpringBootBootstrapLiveTest {
 
     @Test
     public void whenGetNotExistBookById_thenNotFound() {
-        final Response response = RestAssured.get(getApiRoot() + "/" + randomNumeric(4));
+        final Response response = RestAssured.get(getApiBookRoot() + "/" + randomNumeric(4));
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
 
@@ -70,7 +76,7 @@ public class SpringBootBootstrapLiveTest {
         final Response response = RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(book)
-            .post(getApiRoot());
+            .post(getApiBookRoot());
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
     }
 
@@ -82,7 +88,7 @@ public class SpringBootBootstrapLiveTest {
         final Response response = RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(book)
-            .post(getApiRoot());
+            .post(getApiBookRoot());
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode());
     }
 
@@ -119,19 +125,19 @@ public class SpringBootBootstrapLiveTest {
     }
 
     @Test
-    public void whenTryToCreateBannedBook_thenError() {
-        final  BannedBook bannedBook = new BannedBook( "Livre_Interdit","auteur_Interdit");
-        final Book book =new Book("Livre_Interdit","auteur_Interdit");
+    public void whenTryToCreateBookBanned_thenError() {
+        final  BookBanned BookBanned = new BookBanned( "Book banned","Author banned");
+        final Book book =new Book("Book banned","Author banned");
         final Response response = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(bannedBook)
-                .post(getApiBannedBookRoot());
+                .body(BookBanned)
+                .post(getApiBookBannedRoot());
         assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
 
         final Response response2 = RestAssured.given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(book)
-                .post(getApiRoot());
+                .post(getApiBookRoot());
         assertEquals(HttpStatus.BAD_REQUEST.value(), response2.getStatusCode());
     }
 
@@ -148,8 +154,8 @@ public class SpringBootBootstrapLiveTest {
         final Response response = RestAssured.given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body(book)
-            .post(getApiRoot());
-        return getApiRoot() + "/" + response.jsonPath()
+            .post(getApiBookRoot());
+        return getApiBookRoot() + "/" + response.jsonPath()
             .get("id");
     }
 
