@@ -1,0 +1,1 @@
+docker pull kirite/devops-springboot-book:latest
