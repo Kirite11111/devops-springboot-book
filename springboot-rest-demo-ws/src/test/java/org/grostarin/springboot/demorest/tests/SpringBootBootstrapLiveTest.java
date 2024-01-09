@@ -118,6 +118,23 @@ public class SpringBootBootstrapLiveTest {
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode());
     }
 
+    @Test
+    public void whenTryToCreateBannedBook_thenError() {
+        final  BannedBook bannedBook = new BannedBook( "Livre_Interdit","auteur_Interdit");
+        final Book book =new Book("Livre_Interdit","auteur_Interdit");
+        final Response response = RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(bannedBook)
+                .post(getApiBannedBookRoot());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatusCode());
+
+        final Response response2 = RestAssured.given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(book)
+                .post(getApiRoot());
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response2.getStatusCode());
+    }
+
     // ===============================
 
     private Book createRandomBook() {
